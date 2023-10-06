@@ -7,16 +7,18 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const path = require('path');
+const fs = require('fs'); // Require the 'fs' module
 const ReactDOMServer = require('react-dom/server');
 const React = require('react');
 const { Container } = require('reactstrap');
-const ThankYou = require('./views/thankyou.jsx').default; // Corrected import statement
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve static files from the 'public' directory
 app.use(express.static('public'));
 
 const username = 'mern_user';
@@ -68,15 +70,11 @@ app.post('/submit_booking', async (req, res) => {
     // Log a success message
     console.log('Form submitted successfully');
 
-    // Render the ThankYou component to HTML
-    const html = ReactDOMServer.renderToString(
-      <Container>
-        <ThankYou />
-      </Container>
-    );
+    // Read the HTML content from thankyou.html (assuming it's in the root directory)
+    const thankyouHtml = fs.readFileSync('./thankyou.html', 'utf8');
 
-    // Send the rendered HTML as a response
-    res.send(html);
+    // Send the HTML content as a response
+    res.send(thankyouHtml);
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred.');
