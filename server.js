@@ -1,3 +1,7 @@
+require('@babel/register')({
+  presets: ['@babel/preset-env', '@babel/preset-react'],
+});
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -5,8 +9,8 @@ const nodemailer = require('nodemailer');
 const path = require('path');
 const ReactDOMServer = require('react-dom/server');
 const React = require('react');
-const { Container } = require('reactstrap'); // Import Reactstrap components on the server-side
-const ThankYou = require('./views/thankyou.jsx').default; // Import your ThankYou component
+const { Container } = require('reactstrap');
+const ThankYou = require('./views/thankyou.jsx').default; // Corrected import statement
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -49,11 +53,9 @@ app.post('/submit_booking', async (req, res) => {
   try {
     const formData = req.body;
 
-    // Create a new booking document and save it to the database
     const booking = new Booking(formData);
     await booking.save();
 
-    // Send the email
     const mailOptions = {
       from: 'enquiry@ebenezerservicedapartments.com',
       to: 'enquiry@ebenezerservicedapartments.com',
@@ -76,7 +78,7 @@ app.post('/submit_booking', async (req, res) => {
     // Send the rendered HTML as a response
     res.send(html);
   } catch (error) {
-    console.error(error); // Log the error to the console for debugging
+    console.error(error);
     res.status(500).send('An error occurred.');
   }
 });
