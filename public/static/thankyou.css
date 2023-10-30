@@ -160,3 +160,14 @@ section {
 .primary__btn {
   margin-top: 20px; /* Add margin above the button */
 }
+
+/* Additional styles for smaller devices (<=480px) */
+@media only screen and (max-width: 480px) {
+  .container {
+    padding: 20px; /* Add padding to the container for smaller screens */
+  }
+
+  .thank__you {
+    text-align: center;
+  }
+}
